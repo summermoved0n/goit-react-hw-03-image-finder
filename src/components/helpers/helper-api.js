@@ -13,7 +13,7 @@ export default class PixabayApiService {
       const data = await response.data;
       return data;
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
     }
   }
 }
