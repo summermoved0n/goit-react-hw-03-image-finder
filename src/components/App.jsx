@@ -5,7 +5,7 @@ import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
 import { Loader } from './Loader/Loader';
 
-import { css } from './App.module.css';
+import css from './App.module.css';
 
 const pixabayAPI = new PixabayApiService();
 
@@ -73,9 +73,13 @@ export class App extends Component {
     console.log(images);
 
     return (
-      <div>
+      <div className={css.App}>
         <Searchbar onSubmit={this.searchForm} />
-        {status === 'pending' && <Loader />}
+        {status === 'pending' && (
+          <div className={css.Loader}>
+            <Loader />
+          </div>
+        )}
         {images.length > 0 && <ImageGallery images={images} />}
         {isMoreImages && <Button onLoad={this.handleLoadMore} />}
         {status === 'rejected' && <p>Sorry. Something went wrong! 😥</p>}
