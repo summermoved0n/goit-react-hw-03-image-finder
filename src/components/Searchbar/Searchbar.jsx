@@ -1,4 +1,5 @@
 import { Component } from 'react';
+import { FaSearch } from 'react-icons/fa';
 import css from './Searchbar.module.css';
 
 export class Searchbar extends Component {
@@ -32,14 +33,17 @@ export class Searchbar extends Component {
         <form onSubmit={this.handleSubmit} className={css.SearchForm}>
           {input === '' ? (
             <button type="submit" className={css.SearchForm_button} disabled>
-              <span className={css.SearchForm_button_label}>Search</span>
+              <span>
+                <FaSearch />
+              </span>
             </button>
           ) : (
             <button type="submit" className={css.SearchForm_button}>
-              <span className={css.SearchForm_button_label}>Search</span>
+              <span>
+                <FaSearch />
+              </span>
             </button>
           )}
-
           <input
             onChange={this.handleChange}
             className={css.SearchForm_input}

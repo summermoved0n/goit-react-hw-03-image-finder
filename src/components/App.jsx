@@ -4,6 +4,7 @@ import { Searchbar } from './Searchbar/Searchbar';
 import { ImageGallery } from './ImageGallery/ImageGallery';
 import { Button } from './Button/Button';
 import { Loader } from './Loader/Loader';
+import { Modal } from './Modal/Modal';
 
 import css from './App.module.css';
 
@@ -18,6 +19,8 @@ export class App extends Component {
     randomId: 0,
     // error: null,
     status: 'idle',
+    showModal: false,
+    modalImage: null,
   };
 
   async componentDidUpdate(_, prevState) {
@@ -68,23 +71,43 @@ export class App extends Component {
     }));
   };
 
+  closeModal = () => {
+    this.setState({
+      showModal: false,
+    });
+  };
+
+  getImageId = id => {
+    const modalImage = this.state.images.find(image => image.id === id);
+    this.setState({ showModal: true, modalImage });
+  };
+
   render() {
-    const { searchQuery, images, isMoreImages, status } = this.state;
+    const { searchQuery, images, isMoreImages, status, showModal, modalImage } =
+      this.state;
+    console.log('modalImage: ', modalImage);
     console.log(images);
 
     return (
       <div className={css.App}>
+        {showModal && (
+          <Modal closeModal={this.closeModal} modalImage={modalImage} />
+        )}
         <Searchbar onSubmit={this.searchForm} />
         {status === 'pending' && (
           <div className={css.Loader}>
             <Loader />
           </div>
         )}
-        {images.length > 0 && <ImageGallery images={images} />}
+        {images.length > 0 && (
+          <ImageGallery getId={this.getImageId} images={images} />
+        )}
         {isMoreImages && <Button onLoad={this.handleLoadMore} />}
         {status === 'rejected' && <p>Sorry. Something went wrong! 😥</p>}
         {status === 'resolved' && images.length === 0 && (
-          <p>Sorry. '{searchQuery}' not found...</p>
+          <p>
+            Sorry. <b>'{searchQuery}'</b> not found...
+          </p>
         )}
       </div>
     );
